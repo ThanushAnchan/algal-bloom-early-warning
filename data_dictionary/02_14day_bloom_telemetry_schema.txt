@@ -1,0 +1,18 @@
+================================================================================
+DATA DICTIONARY: 14-DAY TELEMETRY & OBSERVATION SCHEMA
+================================================================================
+
+Field Name              | Type           | Description
+--------------------------------------------------------------------------------
+record_id               | UUID           | Unique telemetry observation ID
+tank_id                 | String (FK)    | Reference to Tank Registry
+observation_date        | Date (YYYY-MM) | Observation timestamp
+satellite_scene_id      | String         | Sentinel-2 Granule Tile identifier
+cloud_coverage_percent  | Decimal        | Cloud cover percentage over water body
+band_4_red_reflectance  | Decimal        | Sentinel-2 B4 surface reflectance
+band_5_red_edge         | Decimal        | Sentinel-2 B5 surface reflectance
+calculated_ndci         | Decimal        | Chlorophyll-a indicator value (-1.0 to +1.0)
+estimated_chl_a_ug_l    | Decimal        | Estimated Chlorophyll-a concentration
+predicted_do_48h_mg_l   | Decimal        | Projected Dissolved Oxygen in 48 hours
+risk_classification     | String (Enum)  | "NORMAL", "WATCH", "HIGH_ALERT", "CRITICAL"
+alert_dispatched        | Boolean        | True if SMS/WhatsApp notification fired

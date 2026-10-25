@@ -1,0 +1,26 @@
+================================================================================
+PIPELINE SPECIFICATION: SATELLITE DATA INGESTION
+================================================================================
+
+1. DATA SOURCE SPECIFICATION
+-----------------------------
+- Satellite Platform: Copernicus Sentinel-2A / Sentinel-2B MSI (Multi-Spectral Instrument)
+- Product Level: Level-2A (Bottom-Of-Atmosphere surface reflectance)
+- Spatial Resolution: 10m to 20m per pixel (suitable for village tanks > 1 hectare)
+- Temporal Resolution: 5-day revisit cycle over Karnataka coordinates
+- Data Cost: Free & Open Access (Copernicus Data Space Ecosystem / Google Earth Engine)
+
+2. SPECTRAL BAND ALLOCATION
+----------------------------
+- Band 4 (Red, ~665 nm): Chlorophyll absorption baseline
+- Band 5 (Vegetation Red Edge, ~705 nm): Primary reflectance peak of algae blooms
+- Band 8 (Near-Infrared, ~842 nm): Land-water boundary separation and floating scum detection
+- Band SCL (Scene Classification Layer): Identifies cloud, cirrus, cloud shadow, and water
+
+3. PRE-PROCESSING FILTERING STRUCTURE
+--------------------------------------
+Step 1: Ingest village tank boundary polygon from Karnataka GeoRegistry.
+Step 2: Buffer polygon inward by 10 meters to eliminate shoreline soil contamination.
+Step 3: Query imagery acquired within the last 5 days.
+Step 4: Discard scenes with tank cloud coverage > 25%.
+Step 5: Extract mean pixel reflectance across water mask.

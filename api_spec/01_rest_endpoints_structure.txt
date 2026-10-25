@@ -1,0 +1,30 @@
+================================================================================
+API SPECIFICATION: BACKEND REST ENDPOINTS STRUCTURE
+================================================================================
+
+1. TANK MONITORING ENDPOINTS
+-----------------------------
+GET  /api/v1/tanks
+     Query Params: district, taluk, risk_level, page, limit
+     Returns: Paginated list of monitored tanks with current risk status.
+
+GET  /api/v1/tanks/{tank_id}
+     Returns: Full tank profile, boundary polygon, contacts, and latest reading.
+
+GET  /api/v1/tanks/{tank_id}/telemetry
+     Query Params: lookback_days (default: 14)
+     Returns: Time-series curve of NDCI, Chlorophyll, and Dissolved Oxygen.
+
+2. EARLY WARNING ALERT ENDPOINTS
+--------------------------------
+GET  /api/v1/alerts/active
+     Returns: List of all tanks currently in WATCH, HIGH_ALERT, or CRITICAL status.
+
+POST /api/v1/alerts/dispatch
+     Payload: { tank_id, risk_level, channel: "SMS" | "WHATSAPP", custom_override }
+     Returns: Dispatch status, recipient count, and bilingual message receipt.
+
+3. ADVISORY & INTERVENTION ENDPOINTS
+-------------------------------------
+GET  /api/v1/advisory/{tank_id}
+     Returns: Tailored SOP calculation (aeration hours, liming dosage in kg, runoff blocks).

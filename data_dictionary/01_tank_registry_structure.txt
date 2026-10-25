@@ -1,0 +1,22 @@
+================================================================================
+DATA DICTIONARY: VILLAGE FISH TANK REGISTRY ENTITY
+================================================================================
+
+Field Name              | Type           | Description / Validation
+--------------------------------------------------------------------------------
+tank_id                 | String (PK)    | Unique state ID (e.g., "KA-MND-0412")
+name_english            | String         | English Name (e.g., "Hosahalli GP Kere")
+name_kannada            | String (UTF-8) | Kannada Name (e.g., "ಹೊಸಹಳ್ಳಿ ಗ್ರಾಮ ಪಂಚಾಯತಿ ಕೆರೆ")
+district                | String         | Karnataka District (e.g., "Mandya")
+taluk                   | String         | Taluk Name (e.g., "Maddur")
+gram_panchayat          | String         | Responsible Gram Panchayat
+surface_area_hectares   | Decimal        | Water spread area (e.g., 12.0)
+average_depth_meters    | Decimal        | Average water column depth (e.g., 2.5)
+stocked_fish_species    | Array[String]  | ["Catla", "Rohu", "Mrigal", "Common Carp"]
+estimated_biomass_kg    | Integer        | Stocked fish biomass (e.g., 18,000 kg)
+economic_investment_inr | Decimal        | Cooperative investment value (e.g., 250,000)
+cooperative_society     | String         | Managing Fishermen Cooperative Name
+contact_name            | String         | Cooperative President / Panchayat Officer
+contact_phone           | String         | Mobile number for SMS/WhatsApp alert (+91...)
+preferred_language      | String (Enum)  | "kn" (Kannada) or "en" (English)
+polygon_boundary        | GeoJSON Polygon| Latitude/Longitude polygon boundary of tank

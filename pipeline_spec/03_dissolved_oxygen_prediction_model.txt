@@ -1,0 +1,22 @@
+================================================================================
+PIPELINE SPECIFICATION: DISSOLVED OXYGEN DELETION & HYPOXIA MODEL
+================================================================================
+
+1. PHYSIOLOGICAL BASIS
+----------------------
+- Safe DO Level for Indian Major Carps (Catla, Rohu, Mrigal): > 6.0 mg/L
+- Stress / Cessation of Feeding Threshold: 4.0 - 5.0 mg/L
+- Lethal Asphyxiation / Mass Fish Mortality Threshold: < 4.0 mg/L (Critical < 2.0 mg/L)
+
+2. MULTI-FACTOR PREDICTOR INPUTS
+--------------------------------
+- Primary Factor: 7-day rate of change in NDCI (dNDCI / dt)
+- Secondary Factor: Water surface temperature (higher temperature lowers oxygen saturation)
+- Tertiary Factor: Consecutive overcast / cloudy days (halts daytime photosynthetic DO replenishment)
+- Quaternary Factor: Tank average depth & surface area to volume ratio
+
+3. PREDICTIVE WARNING LEAD TIME
+--------------------------------
+- Trigger Condition: When NDCI > 0.25 and daily increase rate > 0.03/day
+- Output: 48-Hour and 72-Hour projected Minimum Dissolved Oxygen (mg/L)
+- Intervention Benefit: Delivers 4 to 6 days of actionable lead time before lethal 4.0 mg/L crash.

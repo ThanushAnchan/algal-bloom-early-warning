@@ -1,0 +1,16 @@
+================================================================================
+INCIDENT ESCALATION & INTERVENTION PROTOCOL MATRIX
+================================================================================
+
+Risk Stage      | Lead Time | Notification Channel   | Primary Recipient      | Action Required
+-------------------------------------------------------------------------------------------------------------
+GREEN (Normal)  | > 14 Days | Weekly Summary Digest  | Panchayat Portal       | Routine 5-day monitoring
+                |           |                        |                        |
+YELLOW (Watch)  | 7-10 Days | WhatsApp Advisory      | Cooperative Secretary  | Verify water clarity;
+                |           |                        |                        | prepare aerator pumps
+                |           |                        |                        |
+ORANGE (High)   | 3-5 Days  | SMS + WhatsApp + IVR   | Cooperative President, | Run 6-8 hrs aeration nightly;
+                |           | Automated Call         | Panchayat PDO          | apply 100-150 kg/ha lime
+                |           |                        |                        |
+RED (Critical)  | < 48 Hours| Priority SMS + Call +  | Fisheries Assistant    | Continuous emergency aeration;
+                |           | Physical Field Notice  | Director & Taluk Exec  | emergency partial harvest

@@ -1,0 +1,40 @@
+================================================================================
+ALERT & NOTIFICATION TEMPLATES (KANNADA & ENGLISH WIREFRAME)
+================================================================================
+
+1. KANNADA SMS & WHATSAPP TEMPLATE (LOCAL GRAM PANCHAYAT DIALECT)
+------------------------------------------------------------------
+Header:
+⚠️ ಎಚ್ಚರಿಕೆ: [ಕೆರೆಯ ಹೆಸರು], [ಗ್ರಾಮ ಪಂಚಾಯತಿ], [ತಾಲ್ಲೂಕು]
+
+Body:
+ಉಪಗ್ರಹ ಪರಿಶೀಲನೆಯ ಪ್ರಕಾರ ನಿಮ್ಮ ಕೆರೆಯಲ್ಲಿ ಪಾಚಿ (Algal Bloom) ಅಪಾಯಕಾರಿ ಮಟ್ಟಕ್ಕೆ ಬೆಳೆಯುತ್ತಿದೆ.
+ಮುಂದಿನ 48 ರಿಂದ 72 ಗಂಟೆಗಳಲ್ಲಿ ನೀರಿನಲ್ಲಿ ಕರಗಿದ ಆಮ್ಲಜನಕ (Dissolved Oxygen) [ಮೌಲ್ಯ] mg/L ಗೆ
+ಕುಸಿಯುವ ಸಾಧ್ಯತೆಯಿದೆ (4.0 mg/L ಗಿಂತ ಕಡಿಮೆ ಆದಲ್ಲಿ ಮೀನುಗಳು ಉಸಿರುಗಟ್ಟಿ ಸಾಯುತ್ತವೆ).
+
+ತುರ್ತು ರಕ್ಷಣಾ ಕ್ರಮಗಳು:
+1. ತಕ್ಷಣ ರಾತ್ರಿ 2 ಗಂಟೆಯಿಂದ ಬೆಳಿಗ್ಗೆ 7 ರವರೆಗೆ ಡೀಸೆಲ್ ಪಂಪ್ ಅಥವಾ ಏರೇಟರ್ ಮೂಲಕ ನೀರನ್ನು ಏರೇಟ್ ಮಾಡಿ.
+2. ಹೊಲಗಳಿಂದ ಬರುವ ಗೊಬ್ಬರ ಅಥವಾ ಚರಂಡಿ ನೀರಿನ ಒಳಹರಿವನ್ನು ತಕ್ಷಣ ನಿಲ್ಲಿಸಿ.
+3. ಪ್ರತಿ ಹೆಕ್ಟೇರ್‌ಗೆ [ಪ್ರಮಾಣ] ಕೆಜಿ ಸುಣ್ಣವನ್ನು ನೀರಿನಲ್ಲಿ ಕರಗಿಸಿ ಕೆರೆಗೆ ಸಿಂಪಡಿಸಿ.
+
+ಸಹಾಯಕ್ಕಾಗಿ ಸಂಪರ್ಕಿಸಿ:
+ಕರ್ನಾಟಕ ಒಳನಾಡು ಮೀನುಗಾರಿಕಾ ಇಲಾಖೆ ಸಹಾಯವಾಣಿ: 1800-425-1020
+
+------------------------------------------------------------------
+
+2. ENGLISH SMS & WHATSAPP TEMPLATE
+----------------------------------
+Header:
+⚠️ EARLY WARNING ALERT: [Tank Name], [Panchayat Name], [District]
+
+Body:
+Sentinel-2 satellite monitoring indicates accelerated micro-algal growth in your tank.
+Dissolved Oxygen is forecasted to crash to [Projected DO] mg/L within 48-72 hours.
+Critical Threshold is < 4.0 mg/L; mass mortality risk is HIGH without intervention.
+
+Actionable SOP:
+1. Run mechanical surface aerators / diesel pump recycling nightly (02:00 AM - 07:00 AM).
+2. Cut off upstream agricultural fertilizer and wastewater inflows.
+3. Apply agricultural quicklime at [Calculated Dosage] kg to stabilize pH and strip phosphates.
+
+Assistance Helpline: Karnataka Fisheries Department: 1800-425-1020

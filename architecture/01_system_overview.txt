@@ -1,0 +1,29 @@
+================================================================================
+SYSTEM ARCHITECTURE: VILLAGE FISH TANK ALGAL BLOOM EARLY WARNING SYSTEM
+State Scope: Karnataka (3,407 Gram Panchayat Tanks)
+================================================================================
+
+1. PROBLEM SUMMARY
+------------------
+- Fish tanks face recurring mass fish mortalities triggered by toxic algal blooms.
+- Bloom formation requires 7 to 14 days before crashing dissolved oxygen (< 4.0 mg/L).
+- No village-level monitoring currently exists; loss is irreversible upon detection.
+- Target: Detect bloom in Days 1-4 via freely available satellite imagery and alert farmers.
+
+2. HIGH-LEVEL THREE-TIER STRUCTURAL BLUEPRINT
+----------------------------------------------
+[TIER 1: SATELLITE & SENSING LAYER]
+  ├── Sentinel-2 MSI Multi-Spectral Imagery (Bands: B4-Red, B5-Red Edge, B8-NIR)
+  ├── Karnataka State Remote Sensing Applications Centre (KSRSAC) Water Bodies
+  └── IMD Weather / Heatwave / Agricultural Runoff Telemetry
+
+[TIER 2: ANALYTICAL & RISK SCORING LAYER]
+  ├── Cloud & Shadow Masking (SCL Band Filtering)
+  ├── Normalized Difference Chlorophyll Index (NDCI) Calculator
+  ├── 14-Day Bloom Growth Velocity & Trajectory Analyzer
+  └── Dissolved Oxygen Crash Predictor (Hypoxia Early Warning Engine)
+
+[TIER 3: DISSEMINATION & ACTION LAYER]
+  ├── Multi-Channel Alert Gateway (Kannada SMS, WhatsApp, Automated Voice Call)
+  ├── Gram Panchayat & Fisheries Department GIS Web Dashboard
+  └── Field Advisory SOP Engine (Mechanical Aeration, Water Flushing, Liming)

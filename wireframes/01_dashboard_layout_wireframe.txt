@@ -1,0 +1,35 @@
+================================================================================
+UI WIREFRAME: GRAM PANCHAYAT & DISTRICT FISHERIES DASHBOARD
+================================================================================
+
++-------------------------------------------------------------------------------------------------------+
+| [LOGO] MATSYA-WATCH: Karnataka Village Fish Tank Early Warning Portal           [District: Mandya v]  |
++-------------------------------------------------------------------------------------------------------+
+| KPI CARDS:                                                                                            |
+|  +---------------------+ +--------------------+ +---------------------+ +--------------------------+  |
+|  | Monitored Tanks     | | Watch List (D1-4)  | | High Alert (D5-8)   | | Critical Hypoxia (<4mg/L)|  |
+|  | 3,407 Tanks         | | 42 Tanks           | | 11 Tanks            | | 3 Tanks                  |  |
+|  +---------------------+ +--------------------+ +---------------------+ +--------------------------+  |
++-------------------------------------------------------------------------------------------------------+
+| MAIN WORKSPACE:                                                                                       |
+|                                                                                                       |
+|  +------------------------------------------------------+  +---------------------------------------+  |
+|  | GIS MAP VIEW (Sentinel-2 Live Revisit Layer)         |  | SELECTED TANK DETAILS:                |  |
+|  |                                                      |  | Name: Hosahalli Gram Panchayat Kere   |  |
+|  |      [G] Normal Tank (Kolar)                         |  | District: Mandya | Taluk: Maddur      |  |
+|  |                                                      |  | Area: 12.0 Hectares (~30 Acres)       |  |
+|  |                [O] High Alert (Hosahalli, Mandya)    |  | Status: [ HIGH ALERT (Day 7 Bloom) ]  |  |
+|  |                                                      |  | Current NDCI: 0.46 (Hyper-eutrophic)  |  |
+|  |         [Y] Watch Tank (Ramanagara)                  |  | Predicted DO: 3.2 mg/L in 48 Hours    |  |
+|  |                                                      |  | At-Risk Value: Rs. 2,40,000 INR       |  |
+|  |                                                      |  +---------------------------------------+  |
+|  |  Map Layers: [x] Satellite  [ ] Algae Heatmap        |  | 14-DAY NDCI VS DISSOLVED OXYGEN:      |  |
+|  +------------------------------------------------------+  | 1.0|          /---\ (Bloom Peak)      |  |
+|                                                            | 0.5|   /-----/      \                 |  |
+|  +------------------------------------------------------+  | 0.0+---+-----+-----+-----+-----+----   |  |
+|  | ADVISORY & MITIGATION SOP (Auto-Calculated):          |  |   DO: 7.6mg/L ---------> [3.2mg/L CRASH]|  |
+|  | • Aerator Hours: 8 Hours/Night (02:00 AM - 07:00 AM)  |  +---------------------------------------+  |
+|  | • Quicklime (CaO) Dosage: 1,800 kg total (150 kg/ha)  |  | [ 📲 Resend Kannada Alert (SMS/WA) ]  |  |
+|  | • Inflow: Stop agricultural runoff channel diversion  |  | [ 📄 Download Official Advisory PDF ] |  |
+|  +------------------------------------------------------+  +---------------------------------------+  |
++-------------------------------------------------------------------------------------------------------+

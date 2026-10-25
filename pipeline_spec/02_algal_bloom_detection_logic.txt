@@ -1,0 +1,27 @@
+================================================================================
+PIPELINE SPECIFICATION: ALGAL BLOOM DETECTION & SPECTRAL INDICES
+================================================================================
+
+1. SPECTRAL INDICES FORMULAS
+----------------------------
+
+A. Normalized Difference Chlorophyll Index (NDCI):
+   Formula: NDCI = (Band_5_RedEdge - Band_4_Red) / (Band_5_RedEdge + Band_4_Red)
+   Purpose: Directly isolates Chlorophyll-a concentration in turbid shallow water.
+
+B. Normalized Difference Vegetation Index (NDVI):
+   Formula: NDVI = (Band_8_NIR - Band_4_Red) / (Band_8_NIR + Band_4_Red)
+   Purpose: Differentiates between submerged algae vs dense surface floating scum/weeds.
+
+C. Normalized Difference Turbidity Index (NDTI):
+   Formula: NDTI = (Band_4_Red - Band_3_Green) / (Band_4_Red + Band_3_Green)
+   Purpose: Distinguishes inorganic suspended sediment from organic algal growth.
+
+2. THRESHOLD CLASSIFICATION MATRIX
+-----------------------------------
+Index Value Range   | Chlorophyll-a Est. | Water Condition | Alert Status
+-------------------------------------------------------------------------
+NDCI < 0.15         | < 15 ug/L          | Clear / Normal  | NORMAL (Green)
+0.15 <= NDCI < 0.25 | 15 - 35 ug/L       | Elevated Nutrients| WATCH (Yellow)
+0.25 <= NDCI < 0.40 | 35 - 75 ug/L       | Moderate Bloom  | HIGH ALERT (Orange)
+NDCI >= 0.40        | > 75 ug/L          | Hyper-Eutrophic | CRITICAL (Red)
