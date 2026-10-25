@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matsya-Guard | Karnataka Village Fish Tank Early Warning Portal</title>
+  
+  <!-- Google Fonts & Leaflet & Chart.js -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #0a0f1d;
+      --card-bg: rgba(18, 26, 47, 0.85);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --primary: #0284c7;
+      --primary-light: #38bdf8;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --success: #10b981;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .kannada-text {
+      font-family: 'Noto Sans Kannada', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: rgba(10, 15, 29, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-badge {
+      background: linear-gradient(135deg, #0284c7, #06b6d4);
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .state-pill {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--primary-light);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* Main Container */
+    main {
+      padding: 1.5rem 2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .kpi-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+    }
+
+    .kpi-card.blue::before { background: var(--primary-light); }
+    .kpi-card.yellow::before { background: var(--warning); }
+    .kpi-card.orange::before { background: #f97316; }
+    .kpi-card.red::before { background: var(--danger); }
+
+    .kpi-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .kpi-val {
+      font-size: 1.85rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .kpi-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Main Work Area Grid */
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 1100px) {
+      .dashboard-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .glass-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #map {
+      height: 380px;
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+    }
+
+    /* Chart Container */
+    .chart-container {
+      position: relative;
+      height: 260px;
+      width: 100%;
+    }
+
+    /* Sidebar Details */
+    .tank-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    .badge-high-alert {
+      background: rgba(249, 115, 22, 0.2);
+      color: #fb923c;
+      border: 1px solid rgba(249, 115, 22, 0.4);
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      padding: 0.4rem 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+
+    .info-label {
+      color: var(--text-muted);
+    }
+
+    .info-val {
+      font-weight: 600;
+    }
+
+    /* SMS Preview Card */
+    .sms-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 1rem;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: #cbd5e1;
+    }
+
+    .sms-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--primary-light);
+      margin-bottom: 0.35rem;
+      display: block;
+      text-transform: uppercase;
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-action:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .toast {
+      display: none;
+      background: #10b981;
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-align: center;
+      animation: fadeIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand-wrap">
+      <div class="logo-badge">🐟</div>
+      <div>
+        <div class="brand-title">Matsya-Watch Early Warning Portal</div>
+        <div class="brand-sub">Satellite Remote Sensing for Village Fish Tank Hypoxia & Algal Blooms</div>
+      </div>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <span class="state-pill">Karnataka State Inland Fisheries</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- KPI Row -->
+    <div class="kpi-grid">
+      <div class="kpi-card blue">
+        <div class="kpi-label">Monitored Panchayat Tanks</div>
+        <div class="kpi-val">3,407</div>
+        <div class="kpi-hint">Covering all 31 Karnataka Districts</div>
+      </div>
+      <div class="kpi-card yellow">
+        <div class="kpi-label">Watch List (Day 1-4 Bloom)</div>
+        <div class="kpi-val">42 Tanks</div>
+        <div class="kpi-hint">NDCI > 0.20 | Early Intervention Window</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">High Alert (Day 5-8 Bloom)</div>
+        <div class="kpi-val">11 Tanks</div>
+        <div class="kpi-hint">DO Drop expected within 48-72h</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kpi-label">Critical Hypoxia Risk</div>
+        <div class="kpi-val">3 Tanks</div>
+        <div class="kpi-hint">DO < 4.0 mg/L | Aeration Mandatory</div>
+      </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="dashboard-layout">
+      <!-- Left Column: Map & Graph -->
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <!-- Leaflet Map -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>🗺️</span> Karnataka Fish Tank Geo-Registry (Sentinel-2 Live Pass)
+            </div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">
+              Selected: <strong style="color: #fff;" id="selected-tank-header">Hosahalli Tank, Mandya</strong>
+            </div>
+          </div>
+          <div id="map"></div>
+        </div>
+
+        <!-- 14-Day Trajectory Graph -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>📈</span> 14-Day Algal Bloom Growth vs Dissolved Oxygen Crash Curve
+            </div>
+            <div style="font-size: 0.75rem; color: #f87171; font-weight: 600;">
+              Lethal Hypoxia Threshold: 4.0 mg/L
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="bloomChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Selected Tank & Action Dispatch -->
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>🛡️</span> Tank Emergency Action Center
+          </div>
+          <span class="tank-badge badge-high-alert" id="tank-status-pill">High Alert</span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+          <h3 id="tank-name-en" style="font-size: 1.15rem; font-weight: 700;">Hosahalli GP Kere</h3>
+          <p id="tank-name-kn" class="kannada-text" style="color: var(--primary-light); font-size: 0.95rem;">ಹೊಸಹಳ್ಳಿ ಗ್ರಾಮ ಪಂಚಾಯತಿ ಕೆರೆ</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column;">
+          <div class="info-row">
+            <span class="info-label">District / Taluk</span>
+            <span class="info-val">Mandya / Maddur</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Surface Area</span>
+            <span class="info-val">12.0 Hectares (~30 Acres)</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Cooperative Society</span>
+            <span class="info-val">Hosahalli Fishermen Co-op</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Current NDCI (Algae Index)</span>
+            <span class="info-val" style="color: #fb923c;">0.46 (Heavy Bloom)</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Predicted DO in 48 Hours</span>
+            <span class="info-val" style="color: #f87171;">3.2 mg/L (Critical)</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Economic Loss Risk</span>
+            <span class="info-val" style="color: #f87171;">₹2,40,000 INR</span>
+          </div>
+        </div>
+
+        <!-- Recommended Mitigation SOP -->
+        <div style="background: rgba(2, 132, 199, 0.1); border: 1px solid rgba(2, 132, 199, 0.3); border-radius: 10px; padding: 0.9rem;">
+          <div style="font-size: 0.78rem; font-weight: 700; color: var(--primary-light); margin-bottom: 0.4rem; text-transform: uppercase;">
+            📋 Recommended Intervention SOP
+          </div>
+          <ul style="font-size: 0.8rem; line-height: 1.5; color: #cbd5e1; padding-left: 1.1rem;">
+            <li><strong>Mechanical Aeration:</strong> Run 8 hours/night (02:00 AM - 07:00 AM).</li>
+            <li><strong>Quicklime Dosing:</strong> 1,800 kg total (150 kg/hectare broadcast).</li>
+            <li><strong>Inflow Diversion:</strong> Cut agricultural/sewage runoff immediately.</li>
+          </ul>
+        </div>
+
+        <!-- Bilingual SMS / WhatsApp Wireframe -->
+        <div class="sms-box">
+          <span class="sms-tag">📱 Kannada WhatsApp / SMS Payload</span>
+          <p class="kannada-text" style="font-size: 0.85rem;">
+            ⚠️ <strong>ಎಚ್ಚರಿಕೆ: ಹೊಸಹಳ್ಳಿ ಗ್ರಾಮ ಪಂಚಾಯತಿ ಕೆರೆ</strong><br/>
+            ಉಪಗ್ರಹ ಡೇಟಾ ಪ್ರಕಾರ ಕೆರೆಯಲ್ಲಿ ಪಾಚಿ ಹೆಚ್ಚಾಗಿದೆ. ಮುಂದಿನ 48 ಗಂಟೆಗಳಲ್ಲಿ ಆಮ್ಲಜನಕ 3.2 mg/L ಗೆ ಕುಸಿಯುವ ಸಾಧ್ಯತೆಯಿದೆ. ತಕ್ಷಣ ರಾತ್ರಿ ವೇಳೆ ಡೀಸೆಲ್ ಪಂಪ್ ಏರೇಟ್ ಮಾಡಿ ಹಾಗೂ ಪ್ರತಿ ಹೆಕ್ಟೇರ್‌ಗೆ 150 ಕೆಜಿ ಸುಣ್ಣ ಸಿಂಪಡಿಸಿ.
+          </p>
+        </div>
+
+        <button class="btn-action" onclick="dispatchEmergencyAlert()">
+          <span>📲</span> Dispatch Emergency Alert (SMS & WhatsApp)
+        </button>
+
+        <div id="toast-msg" class="toast">
+          ✅ Alert successfully dispatched to 12 cooperative members & Panchayat Development Officer!
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // 1. Initialize Leaflet Map
+    const map = L.map('map').setView([12.75, 77.4], 9);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '© OpenStreetMap contributors | Satellite Layer Sentinel-2'
+    }).addTo(map);
+
+    const tanks = [
+      {
+        name: "Hosahalli GP Kere, Mandya",
+        kannada: "ಹೊಸಹಳ್ಳಿ ಗ್ರಾಮ ಪಂಚಾಯತಿ ಕೆರೆ",
+        lat: 12.5830,
+        lng: 77.0230,
+        risk: "HIGH_ALERT",
+        ndci: 0.46,
+        do48h: 3.2,
+        color: "#f97316"
+      },
+      {
+        name: "Channapatna Silk Tank, Ramanagara",
+        kannada: "ಚನ್ನಪಟ್ಟಣ ರೇಷ್ಮೆ ಕೆರೆ",
+        lat: 12.6510,
+        lng: 77.2030,
+        risk: "WATCH",
+        ndci: 0.28,
+        do48h: 5.1,
+        color: "#f59e0b"
+      },
+      {
+        name: "Malur Amanikere, Kolar",
+        kannada: "ಮಾಲೂರು ಅಮಾನಿಕೆರೆ",
+        lat: 13.0020,
+        lng: 77.9430,
+        risk: "NORMAL",
+        ndci: 0.12,
+        do48h: 7.4,
+        color: "#10b981"
+      }
+    ];
+
+    tanks.forEach(tank => {
+      const marker = L.circleMarker([tank.lat, tank.lng], {
+        radius: 10,
+        fillColor: tank.color,
+        color: "#fff",
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.85
+      }).addTo(map);
+
+      marker.bindPopup(`
+        <div style="font-family: sans-serif; color: #111;">
+          <strong style="font-size: 13px;">${tank.name}</strong><br/>
+          <span style="font-size: 12px; color: #555;">${tank.kannada}</span><br/><br/>
+          <b>Risk Status:</b> <span style="color:${tank.color}; font-weight:bold;">${tank.risk}</span><br/>
+          <b>Current NDCI:</b> ${tank.ndci}<br/>
+          <b>Predicted DO:</b> ${tank.do48h} mg/L
+        </div>
+      `);
+    });
+
+    // 2. Initialize 14-Day Progression Chart
+    const ctx = document.getElementById('bloomChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7 (Peak)', 'Day 8', 'Day 9', 'Day 10', 'Day 11', 'Day 12', 'Day 13', 'Day 14'],
+        datasets: [
+          {
+            label: 'Chlorophyll-a Index (NDCI)',
+            data: [0.12, 0.16, 0.22, 0.27, 0.34, 0.41, 0.46, 0.50, 0.48, 0.42, 0.35, 0.28, 0.21, 0.15],
+            borderColor: '#38bdf8',
+            backgroundColor: 'rgba(56, 189, 248, 0.15)',
+            yAxisID: 'yNDCI',
+            tension: 0.35,
+            fill: true
+          },
+          {
+            label: 'Dissolved Oxygen (mg/L)',
+            data: [7.6, 7.8, 8.1, 8.4, 8.0, 7.2, 6.3, 5.4, 4.6, 3.9, 3.2, 2.7, 2.4, 2.1],
+            borderColor: '#f87171',
+            backgroundColor: 'transparent',
+            borderDash: [5, 5],
+            yAxisID: 'yDO',
+            tension: 0.35,
+            borderWidth: 2.5
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: {
+            labels: { color: '#cbd5e1', font: { size: 11 } }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#94a3b8', font: { size: 10 } }
+          },
+          yNDCI: {
+            type: 'linear',
+            position: 'left',
+            title: { display: true, text: 'NDCI Index', color: '#38bdf8' },
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#38bdf8' },
+            min: 0,
+            max: 0.6
+          },
+          yDO: {
+            type: 'linear',
+            position: 'right',
+            title: { display: true, text: 'Dissolved Oxygen (mg/L)', color: '#f87171' },
+            grid: { drawOnChartArea: false },
+            ticks: { color: '#f87171' },
+            min: 0,
+            max: 10
+          }
+        }
+      }
+    });
+
+    // 3. Dispatch Action Wireframe
+    function dispatchEmergencyAlert() {
+      const toast = document.getElementById('toast-msg');
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 5000);
+    }
+  </script>
+</body>
+</html>

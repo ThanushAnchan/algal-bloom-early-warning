@@ -1,0 +1,61 @@
+{
+  "state": "Karnataka",
+  "total_gram_panchayat_tanks": 3407,
+  "high_risk_priority_districts": [
+    {
+      "district": "Mandya",
+      "total_tanks": 412,
+      "pilot_tanks": 18,
+      "primary_species": [
+        "Rohu",
+        "Catla",
+        "Mrigal"
+      ]
+    },
+    {
+      "district": "Ramanagara",
+      "total_tanks": 289,
+      "pilot_tanks": 12,
+      "primary_species": [
+        "Catla",
+        "Common Carp"
+      ]
+    },
+    {
+      "district": "Kolar",
+      "total_tanks": 354,
+      "pilot_tanks": 15,
+      "primary_species": [
+        "Tilapia",
+        "Grass Carp"
+      ]
+    },
+    {
+      "district": "Bengaluru Rural",
+      "total_tanks": 198,
+      "pilot_tanks": 10,
+      "primary_species": [
+        "Rohu",
+        "Catla"
+      ]
+    },
+    {
+      "district": "Mysuru",
+      "total_tanks": 340,
+      "pilot_tanks": 14,
+      "primary_species": [
+        "Rohu",
+        "Silver Carp"
+      ]
+    },
+    {
+      "district": "Tumakuru",
+      "total_tanks": 420,
+      "pilot_tanks": 16,
+      "primary_species": [
+        "Catla",
+        "Mrigal"
+      ]
+    }
+  ]
+}
